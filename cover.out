@@ -1,0 +1,25 @@
+mode: set
+project/group3/features/users/business/usecase.go:15.58,19.2 1 1
+project/group3/features/users/business/usecase.go:21.74,22.67 1 1
+project/group3/features/users/business/usecase.go:25.2,26.17 2 1
+project/group3/features/users/business/usecase.go:22.67,24.3 1 0
+project/group3/features/users/business/usecase.go:29.109,32.2 2 1
+project/group3/features/users/business/usecase.go:34.91,36.22 2 0
+project/group3/features/users/business/usecase.go:39.2,39.23 1 0
+project/group3/features/users/business/usecase.go:42.2,42.26 1 0
+project/group3/features/users/business/usecase.go:49.2,49.27 1 0
+project/group3/features/users/business/usecase.go:52.2,53.17 2 0
+project/group3/features/users/business/usecase.go:36.22,38.3 1 0
+project/group3/features/users/business/usecase.go:39.23,41.3 1 0
+project/group3/features/users/business/usecase.go:42.26,44.23 2 0
+project/group3/features/users/business/usecase.go:47.3,47.47 1 0
+project/group3/features/users/business/usecase.go:44.23,46.4 1 0
+project/group3/features/users/business/usecase.go:49.27,51.3 1 0
+project/group3/features/users/business/usecase.go:56.82,59.2 2 0
+project/group3/features/users/business/usecase.go:61.77,64.2 2 1
+project/group3/features/comments/business/usecase.go:12.70,16.2 1 1
+project/group3/features/comments/business/usecase.go:18.80,19.47 1 1
+project/group3/features/comments/business/usecase.go:22.2,23.17 2 1
+project/group3/features/comments/business/usecase.go:19.47,21.3 1 0
+project/group3/features/comments/business/usecase.go:26.115,29.2 2 1
+project/group3/features/comments/business/usecase.go:31.94,34.2 2 1

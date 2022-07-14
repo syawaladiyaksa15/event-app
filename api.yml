@@ -1,0 +1,889 @@
+openapi: "3.0.2"
+info:
+  title: Event Planning App
+  description: Event Planning App
+  version: 1.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/darmon17/project3.1/1.0.0
+  - url: 3.86.179.206
+tags:
+  - name: Authentication
+  - name: Users
+  - name: Events
+  - name: Attendees
+  - name: Comment
+
+paths:
+  #login
+  /login:
+    post:
+      tags:
+        - Authentication
+      description: fitur untuk login ke sistem
+      requestBody:
+         content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:                 
+                  email:
+                    type: string
+                  password:
+                    type: string
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseLoginSuccess"
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "Login Success",
+                      data:
+                        {
+                          avatarUrl: "https://gudanggroup3.s3.amazonaws.com/2022-07-05%2015%3A17%3A33.jpg",
+                          name: "heritest",
+                          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co",
+                        },
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "email or password incorrect",
+                    }
+  #users
+  /users:
+    post:
+      tags:
+        - Users
+      description: fitur untuk registrasi/buat data user
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string                  
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+            image/png:
+                  schema:
+                    type: string
+                    format: binary
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+    put:
+      tags:
+        - Users
+      description: fitur untuk update data user
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string                  
+                email:
+                  type: string
+                password:
+                  type: string
+                avatar_url:
+                  type: string
+                  format: binary
+            encoding:
+              avatar_url: # Property name
+                contentType: image/png, image/jpeg
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad Request" }
+    delete:
+      tags:
+        - Users
+      description: fitur untuk menghapus user
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: iduser
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  value:
+                    code: 200
+                    status: "success"
+                    message: "Successful Operation"
+
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "Bad Request" }             
+  /myprofile:
+    get:
+      tags:
+        - Users
+      description: fitur untuk melihat profil yang login
+      security:
+        - JWTAuth: []
+      responses:
+        "403":
+          description: forbiden
+        "404":
+          description: No data
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 1,
+                      name: "alex",
+                      email: "alex@gmail.com",
+                      avatar_url: "https://gudanggroup3.s3.amazonaws.com/2022-07-05%2015%3A17%3A33.jpg",
+                      created_at: 0001-01-01T00:00:00Z,
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "bad request" }
+  
+  #  event
+  /events:
+    post:
+      tags:
+        - Events
+      description: fitur untuk membuat event
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                event_name:
+                  type: string                  
+                category:
+                  type: string
+                link:
+                  type: string
+                lat:
+                  type: string
+                long:
+                  type: string
+                quota:
+                  type: integer
+                date:
+                  type: string
+                time:
+                  type: string
+                descriptoon:
+                  type: string
+            encoding:
+              avatar_url: # Property name
+                contentType: image/png, image/jpeg
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+            image/png:
+                  schema:
+                    type: string
+                    format: binary
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+    get:
+      tags:
+        - Events
+      description: fitur untuk melihat semua event yang tersedia
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+      responses:
+        "200":
+            description: Success Response
+            content:
+              application/json:
+                schema:
+                  $ref: "#"
+                examples:
+                  response data:
+                    description: response success 1
+                    value:
+                      {
+                        id: 1,
+                        image: "https://gudanggroup3.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                        event_name: "Coding bareng",
+                        category: "community",
+                        link: "-",
+                        lat: "-6.193125",
+                        long: "106.821810",
+                        quota: 50,
+                        date: "2022-07-15T00:00:00Z",
+                        time: "10.00 - 12",
+                        description: "this is description",
+                        created_at: "2022-07-06T06:40:47.449Z",
+                        user: {
+                            id: 3,
+                            name: "darmon",
+                            avatar_url: "",
+                        }
+                      }
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+  /join-event/{idevent}:
+    post:
+      tags:
+        - Events
+      description: fitur untuk join ke event. status 1 = untuk join, status 0 = untuk cancel join
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+              status: 1
+
+            
+              
+          
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+              
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+  /events/{idevent}:
+    get:
+        tags:
+          - Events
+        description: untuk melihat detail event
+        parameters:
+          - name: idevent
+            description: get data by id
+            in: path
+            schema:
+              type: integer
+              example: 1
+            required: true
+        responses:
+          "200":
+            description: Success Response
+            content:
+              application/json:
+                schema:
+                  $ref: "#"
+                examples:
+                  response data:
+                    description: response success 1
+                    value:
+                      {
+                        id: 1,
+                        image: "https://gudanggroup3.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                        event_name: "Coding bareng",
+                        category: "community",
+                        link: "-",
+                        lat: "-6.193125",
+                        long: "106.821810",
+                        quota: 50,
+                        date: "2022-07-15T00:00:00Z",
+                        time: "10.00 - 12",
+                        description: "this is description",
+                        created_at: "2022-07-06T06:40:47.449Z",
+                        user: {
+                            id: 3,
+                            name: "darmon",
+                            avatar_url: "",
+                        }
+                      }
+                  
+          "400":
+            description: Failed Response
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/failedResponse"
+                examples:
+                  responseData1:
+                    description: response failed 1
+                    value:
+                      {
+                        code: 400,
+                        status: "failed",
+                        message: "please make sure all fields are filled in correctly",
+                      }
+    put:
+      tags:
+        - Events
+      security:
+        - JWTAuth: []
+      description: untuk update event
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                event_name:
+                  type: string                  
+                category:
+                  type: string
+                link:
+                  type: string
+                lat:
+                  type: string
+                long:
+                  type: string
+                quota:
+                  type: integer
+                date:
+                  type: string
+                time:
+                  type: string
+                descriptoon:
+                  type: string
+            encoding:
+              avatar_url: # Property name
+                contentType: image/png, image/jpeg
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation update data",
+                    }
+            image/png:
+                  schema:
+                    type: string
+                    format: binary
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+    delete:
+      tags:
+        - Events
+      description: untuk delete event 
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation delete data",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "failed to delete data",
+                    }
+  /my-events:
+    get:
+        tags:
+          - Events
+        security:
+        - JWTAuth: []
+        description: fitur untuk melihat event yang kita buat
+        parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+        responses:
+          "200":
+            description: Success Response
+            content:
+              application/json:
+                schema:
+                  $ref: "#"
+                examples:
+                  response data:
+                    description: response success 1
+                    value:
+                      {
+                        id: 1,
+                        image: "https://gudanggroup3.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                        event_name: "Coding bareng",
+                        category: "community",
+                        link: "-",
+                        lat: "-6.193125",
+                        long: "106.821810",
+                        quota: 50,
+                        date: "2022-07-15T00:00:00Z",
+                        time: "10.00 - 12",
+                        description: "this is description",
+                        created_at: "2022-07-06T06:40:47.449Z",
+                        user: {
+                            id: 3,
+                            name: "darmon",
+                            avatar_url: "",
+                        }
+                      }
+                  
+          "400":
+            description: Failed Response
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/failedResponse"
+                examples:
+                  responseData1:
+                    description: response failed 1
+                    value:
+                      {
+                        code: 400,
+                        status: "failed",
+                        message: "please make sure all fields are filled in correctly",
+                      }
+
+  /attendees/{idevent}:
+    get:
+      tags:
+        - Attendees
+      description: fitur untuk melihat siapa saja yang join di event tersebut
+      parameters:
+        - name: idevent
+          description: get data Attendees by id event
+          in: query
+          schema:
+            type: integer
+            example: 1
+          required: true
+
+      responses:
+        "403":
+          description: forbiden
+        "404":
+          description: No data
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 1,
+                      name: "alex",
+                      avatar_url: "https://gudanggroup3.s3.amazonaws.com/2022-07-05%2015%3A17%3A33.jpg",
+                    }
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: { code: 400, status: "failed", message: "bad request" }
+  
+  /comments/{idcomment}:
+    delete:
+      tags:
+        - Comment
+      security:
+        - JWTAuth: []
+      description: fitur untuk menghapus komen
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: Success Response
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success delete data",
+                    }
+            image/png:
+                  schema:
+                    type: string
+                    format: binary
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: Failed Response
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "failed to delete data",
+                    }
+  /comments/{idevent}:
+    get:
+      tags:
+        - Comment
+      description: fitur untuk mendapatkan seluruh komen di 1 event
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      id: 21,
+                      name: "alex",
+                      comment: "hey yoooooo ini comment",
+                    }
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "failed operation",
+                    }
+    post:
+      tags:
+        - Comment
+      description: fitur untuk membuat komen di event
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string 
+
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: "#"
+              examples:
+                response data:
+                  description: response success 1
+                  value:
+                    {
+                      code: 200,
+                      status: "success",
+                      message: "success operation create data",
+                    }
+            image/png:
+                  schema:
+                    type: string
+                    format: binary
+                
+        "400":
+          description: Failed Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/failedResponse"
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value:
+                    {
+                      code: 400,
+                      status: "failed",
+                      message: "please make sure all fields are filled in correctly",
+                    }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    requestLogin:
+      type: object
+      properties:
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+    responseLoginSuccess:
+      type: object
+      properties:
+        {
+          "code": { type: number },
+          "message": { type: string },
+          "status": { type: string },
+          "data": { type: object },
+        }
+    failedResponse:
+      type: object
+      properties:
+        {
+          "code": { type: number },
+          "message": { type: string },
+          "status": { type: string },
+        }
